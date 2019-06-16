@@ -8,7 +8,6 @@ from app.api import api_1_0_blueprint
 class FlaskConfig:
     UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__name__)),
                                  'uploads')
-    ALLOWED_EXTENSIONS = set(['csv'])
 
 
 def create_app():
@@ -16,4 +15,3 @@ def create_app():
     app.config.from_object(FlaskConfig)
     app.register_blueprint(api_1_0_blueprint,  url_prefix='/api')
     return app
-

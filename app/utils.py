@@ -72,16 +72,14 @@ class RequestSender:
 
     def get_session(self):
         data = requests.get(self.session_service_url)
-        return None
+        return data
 
     def send_chunk(self, data):
         data_chunk = jsonify(data)
-        # return requests.post(self.project_service_url, {'data': data_chink})
-        pass
+        return requests.post(self.project_service_url, {'data': data_chunk})
 
     def send_status(self, status):
-        # return requests.put(self.project_service_url, {'status': status})
-        pass
+        return requests.put(self.project_service_url, {'status': status})
 
 
 def remove_file(filename):

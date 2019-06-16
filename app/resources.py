@@ -1,11 +1,12 @@
 from csv import DictReader
 
-
 from flask import jsonify
 from flask_restful import Resource
 
-from .utils import TransformType, RequestSender, save_filename, remove_file,\
+from .utils import (
+    TransformType, RequestSender, save_filename, remove_file,
     post_parser
+    )
 
 
 class UploadCsv(Resource):
@@ -17,7 +18,7 @@ class UploadCsv(Resource):
         data = post_parser()
         file = data['file']
         self.process_file(file)
-        return jsonify(dict(hi=True))
+        return jsonify(dict(result='success'))
 
     def process_file(self, file):
         uploaded_file = self._upload_file(file)

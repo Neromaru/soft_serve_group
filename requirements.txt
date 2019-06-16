@@ -1,0 +1,6 @@
+Flask
+Flask-Script
+flask-restful
+requests
+flake8
+werkzeug
