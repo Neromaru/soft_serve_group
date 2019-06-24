@@ -1,6 +1,6 @@
 from csv import DictReader
 
-from flask import jsonify
+from flask import jsonify, Response
 from flask_restful import Resource
 
 from .utils import (
@@ -16,9 +16,12 @@ class UploadCsv(Resource):
 
     def post(self):
         data = post_parser()
-        file = data['file']
-        self.process_file(file)
-        return jsonify(dict(result='success'))
+        file = data.get('file', False)
+        if file:
+            self.process_file(file)
+            return jsonify(dict(result='success'))
+        return Response(response=jsonify(dict(error="No file specified")),
+                        status=400, mimetype='application/json')
 
     def process_file(self, file):
         uploaded_file = self._upload_file(file)

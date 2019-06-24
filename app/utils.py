@@ -1,10 +1,10 @@
 import os
 from datetime import datetime as dt
-import werkzeug
-from flask_restful import reqparse
 
 import requests
+import werkzeug
 from flask import current_app, jsonify
+from flask_restful import reqparse
 from werkzeug.utils import secure_filename
 
 
@@ -67,19 +67,23 @@ class TransformType:
 
 class RequestSender:
 
-    session_service_url = ''
-    project_service_url = ''
+    service_project_url = "127.0.0.1:5000/api/projects/%s"
+    service_session_url = "127.0.0.1:5000/session/%s"
 
-    def get_session(self):
-        data = requests.get(self.session_service_url)
+    def get_session(self, auth_service_url):
+        data = requests.get(self.service_session_url % auth_service_url)
         return data
 
-    def send_chunk(self, data):
+    def send_chunk(self, project_service_is, data):
         data_chunk = jsonify(data)
-        return requests.post(self.project_service_url, {'data': data_chunk})
+        return requests.post(
+            self.service_project_url % project_service_is,
+            {'data': data_chunk})
 
-    def send_status(self, status):
-        return requests.put(self.project_service_url, {'status': status})
+    def send_status(self, project_service_id, status):
+        return requests.put(
+            self.service_project_url % project_service_id,
+            {'status': status})
 
 
 def remove_file(filename):
